@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projeto Fácil</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free-6.4.0-web/css/all.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- DataTable -->
+    <link rel="stylesheet" href="./plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="./plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="./plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+    <!-- Personalizado -->
+    <link rel="stylesheet" href="dist/css/personalizado.css">
+    <style>
+        .bg-login {
+            background-image: url('./dist/img/Pair-programming-rafiki-light.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center center;
+        }
+    </style>
+</head>
+
+<body class="hold-transition login-page">
+    <div class="register-box">
+        <div style="min-height: 5vh;"></div>
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <img src="./dist/img/logomarca-mono-c.svg" height="80" alt="Logo ProjetoFácil" class="brand-image"><br>
+                <a href="#" class="h1"><b>Projeto</b>Fácil</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Realize seu cadastro</p>
+                <form action="./login.html" method="post">
+                    <div class="input-group mb-3">
+                        <input name="nome" type="text" class="form-control" placeholder="Nome completo" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="cpf" type="tel" class="form-control" placeholder="CPF" maxlength="14" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-list-alt"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="dataNascimento" type="tel" class="form-control" placeholder="Data de nascimento" maxlength="10"
+                            required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa fa-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="email" type="email" class="form-control" placeholder="Email" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="senha" type="password" class="form-control" placeholder="Senha" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Repita a senha" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                                <label for="agreeTerms">
+                                    Eu concordo com os <a href="#">termos</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                        </div>
+
+                    </div>
+                </form>
+
+                <a href="login.html" class="text-center">Já sou cadastrado</a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="m-3"></div>
+
+
+
+
+
+
+
+    <!-- SCRIPTS -->
+    <!-- jQuery -->
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="./dist/js/adminlte.min.js"></script>
+    <!-- Plugin DataTables -->
+    <script src="./plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="./plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="./plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="./plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="./plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="./plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="./plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="./plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="./plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <!-- Personalizado -->
+    <script>
+        // Seleciona o input com id "cpf"
+        const cpfInput = document.querySelector('input[name="cpf"]');
+
+        // Adiciona um event listener para o evento "input"
+        cpfInput.addEventListener('input', formatCPF);
+
+        function formatCPF() {
+            // Remove tudo que não é número do valor do input
+            let cpf = cpfInput.value.replace(/\D/g, '');
+
+            // Adiciona os pontos e traço na posição correta
+            cpf = cpf.replace(/^(\d{3})(\d)/g, '$1.$2');
+            cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3');
+            cpf = cpf.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d{2})/g, '$1.$2.$3-$4');
+
+            // Define o valor formatado do input
+            cpfInput.value = cpf;
+        }
+
+        // Seleciona o input com o atributo "name" igual a "dataNascimento"
+        const dataNascimentoInput = document.querySelector('input[name="dataNascimento"]');
+
+        // Adiciona um event listener para o evento "input"
+        dataNascimentoInput.addEventListener('input', formatarData);
+
+        function formatarData() {
+            // Remove tudo que não é número do valor do input
+            let data = dataNascimentoInput.value.replace(/\D/g, '');
+
+            // Adiciona as barras na posição correta
+            data = data.replace(/^(\d{2})(\d)/g, '$1/$2');
+            data = data.replace(/^(\d{2})\/(\d{2})(\d)/g, '$1/$2/$3');
+
+            // Define o valor formatado do input
+            dataNascimentoInput.value = data;
+        }
+
+    </script>
+</body>
+
+</html>
