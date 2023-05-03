@@ -1,0 +1,476 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Início</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6 text-right">
+        <button class="btn btn-sm btn-outline-secondary">
+          <i class="fa fa-plus"></i>
+          Novo
+        </button>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content ml-2 mr-2">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+
+        <div class="card">
+          <div class="card-header bg-projeto-light">
+            <h4 id="data-atual">../../...</h4>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Total de horas trabalhadas hoje:</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-clock"></i></span>
+                </div>
+                <input type="text" class="form-control" id="totalHorasHoje" value="00:00:00" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card card-iniciarContagemHoras">
+          <div class="card-body">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+              </div>
+              <input type="text" class="form-control projetoNome" placeholder="Nome do projeto" aria-label="Pesquisar"
+                aria-describedby="basic-addon1" disabled>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-tasks"></i></span>
+              </div>
+              <input type="text" class="form-control atividadeNome" placeholder="Atividade" aria-label="Pesquisar"
+                aria-describedby="basic-addon1" disabled>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-clock"></i></span>
+                  </div>
+                  <input type="text" class="form-control tempoAtv" placeholder="00:00:00" aria-label="Pesquisar"
+                    aria-describedby="basic-addon1" disabled>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control codAtv" placeholder="Cód Atividade" aria-label="Pesquisar"
+                    aria-describedby="basic-addon1">
+                  <span class="input-group-append">
+                    <button type="button" class="btn btn-primary" onclick="iniciarContagem();">Iniciar</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-12">
+
+        <div class="card">
+          <div class="card-body">
+
+            <table id="tbHistorico" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Cód</th>
+                  <th scope="col">Atividade</th>
+                  <th scope="col">Data/Hora Início</th>
+                  <th scope="col">Data/Hora Fim</th>
+                  <th scope="col">Tempo Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>001</td>
+                  <td>Atividade XXX</td>
+                  <td>10/04/2023 14:30</td>
+                  <td>10/04/2023 15:15</td>
+                  <td>00:45:00</td>
+                </tr>
+                <tr>
+                  <td>002</td>
+                  <td>Atividade XYZ</td>
+                  <td>11/04/2023 08:00</td>
+                  <td>11/04/2023 10:30</td>
+                  <td>02:30:00</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>Atividade X50</td>
+                  <td>12/04/2023 09:00</td>
+                  <td>12/04/2023 12:00</td>
+                  <td>03:00:00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- JavaScript do Projeto -->
+<script>
+  //Definindo os elementos principais
+  const atvBtn = document.querySelector("#inicio .card-iniciarContagemHoras .btn");
+  const nomeProjeto = document.querySelector("#inicio .card-iniciarContagemHoras .projetoNome");
+  const codAtv = document.querySelector("#inicio .card-iniciarContagemHoras .codAtv");
+  const nomeAtv = document.querySelector("#inicio .card-iniciarContagemHoras .atividadeNome");
+  const tempoAtv = document.querySelector("#inicio .card-iniciarContagemHoras .tempoAtv");
+  const tempoTotalHoje = document.querySelector("#inicio #totalHorasHoje");
+  var atividadeIniciada = null;
+
+
+  //Função de iniciar a contagem de horas de uma atividade
+  function iniciarContagem() {
+    if (atividadeIniciada == null) {
+      const cod = codAtv.value;
+
+      //localiza a atividade pelo codigo
+      atividade = dados[0].atividades.find(p => p.cod == cod);
+      if (atividade) {
+        //inicia a contagem do tempo
+        startTimer();
+        //Salva o horário que começou a atividade
+        atividadeIniciada = dataHoraAtual();
+        projeto = dados[0].projetos.find(p => p.id == atividade.projeto).nome;
+        nomeProjeto.value = projeto;
+        nomeAtv.value = atividade.nome;
+        codAtv.disabled = true;
+        atvBtn.innerHTML = 'Parar';
+        atvBtn.classList.remove('btn-primary');
+        atvBtn.classList.add('btn-danger')
+      } else {
+        codAtv.value = '';
+        alert('Cód de Atividade não localizado!');
+      }
+    } else {
+      stopTimer(atividadeIniciada); //para a contagem do tempo
+      atividadeIniciada = null;
+      nomeProjeto.value = '';
+      nomeAtv.value = '';
+      codAtv.disabled = false;
+      atvBtn.innerHTML = 'Iniciar';
+      atvBtn.classList.remove('btn-danger');
+      atvBtn.classList.add('btn-primary');
+      codAtv.value = '';
+    }
+  }
+  //Adiciona evento para o form da contagem de horas de atividade
+  inputCodAtv = codAtv;
+  inputCodAtv.addEventListener('keydown', function (event) {
+    // verifique se a tecla pressionada é a tecla "Enter"
+    if (event.keyCode === 13) {
+      // chame a função que é acionada pelo botão "Iniciar"
+      iniciarContagem();
+    }
+  });
+
+
+  //Encontrar a atividade no JSON
+  function encontrarAtividade(codigoAtividade) {
+    const atividade = dados[0].atividades.find(a => a.cod === codigoAtividade);
+
+    if (atividade) {
+      const projeto = dados[0].projetos.find(p => p.id === atividade.projeto);
+
+      if (projeto) {
+        return {
+          projeto: projeto.nome,
+          atividade: atividade.nome
+        };
+      } else {
+        return "Projeto não encontrado";
+      }
+    } else {
+      return "Atividade não encontrada";
+    }
+  }
+
+
+  //Dados do JSON
+  const dados = [
+    {
+      "projetos": [
+        {
+          "id": 1,
+          "nome": "Projeto Integrador"
+        }
+      ],
+      "atividades": [
+        {
+          "projeto": 1,
+          "cod": "AP",
+          "nome": "Apresentação da tela principal"
+        },
+        {
+          "projeto": 1,
+          "cod": "PF",
+          "nome": "Apresentação da funcionalidade"
+        }
+      ]
+    }
+  ];
+
+
+
+
+  // Atualizar a data de hoje
+  function atualizarDataHoje() {
+    const agora = new Date();
+    const dia = agora.getDate();
+    const mes = agora.getMonth() + 1;
+    const ano = agora.getFullYear();
+
+    const dataAtual = `${dia < 10 ? '0' : ''}${dia}/${mes < 10 ? '0' : ''}${mes}/${ano}`;
+
+    document.getElementById('data-atual').innerHTML = `${dataAtual}`;
+  }
+  atualizarDataHoje();
+</script>
+
+
+<script>
+  //TEMPO
+  var timer; // variável para armazenar o intervalo
+  var seconds = 0;
+  var minutes = 0;
+  var hours = 0;
+
+  function startTimer() {
+    timer = setInterval(function () {
+      seconds++;
+      if (seconds == 60) {
+        minutes++;
+        seconds = 0;
+      }
+      if (minutes == 60) {
+        hours++;
+        minutes = 0;
+      }
+      updateTimer();
+    }, 1000);
+  }
+
+  function stopTimer(horaIniciada) {
+    clearInterval(timer);
+    novaLinha(
+      codAtv.value,
+      nomeAtv.value,
+      horaIniciada,
+      dataHoraAtual(),
+      tempoAtv.value);
+    tempoTotalHoje.value = somarTempo(tempoAtv.value, tempoTotalHoje.value);
+    tempoAtv.value = '00:00:00';
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+  }
+
+  function updateTimer() {
+    var time = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+    tempoAtv.value = time;
+  }
+
+  function dataHoraAtual() {
+    // crie um objeto Date com a data e hora atuais
+    const now = new Date();
+
+    // obtenha os valores da data e hora
+    const dia = now.getDate().toString().padStart(2, '0'); // adiciona um zero à esquerda se o dia for menor que 10
+    const mes = (now.getMonth() + 1).toString().padStart(2, '0'); // adiciona um zero à esquerda se o mês for menor que 10
+    const ano = now.getFullYear().toString();
+    const hora = now.getHours().toString().padStart(2, '0'); // adiciona um zero à esquerda se a hora for menor que 10
+    const minutos = now.getMinutes().toString().padStart(2, '0'); // adiciona um zero à esquerda se os minutos forem menores que 10
+
+    // crie uma string com a data e hora formatadas
+    const dataHoraAtual = `${dia}/${mes}/${ano} ${hora}:${minutos}`;
+
+    // exiba a string no console
+    return (dataHoraAtual);
+  }
+
+  function somarTempo(tempo1, tempo2) {
+    // converte cada tempo para segundos
+    const tempo1Segundos = (Number(tempo1.substr(0, 2)) * 3600) + (Number(tempo1.substr(3, 2)) * 60) + Number(tempo1.substr(6, 2));
+    const tempo2Segundos = (Number(tempo2.substr(0, 2)) * 3600) + (Number(tempo2.substr(3, 2)) * 60) + Number(tempo2.substr(6, 2));
+
+    // soma os segundos
+    const totalSegundos = tempo1Segundos + tempo2Segundos;
+
+    // converte o resultado de volta para o formato "hh:mm:ss"
+    const horas = Math.floor(totalSegundos / 3600).toString().padStart(2, '0');
+    const minutos = Math.floor((totalSegundos % 3600) / 60).toString().padStart(2, '0');
+    const segundos = (totalSegundos % 60).toString().padStart(2, '0');
+
+    // retorna o resultado no formato "hh:mm:ss"
+    return `${horas}:${minutos}:${segundos}`;
+  }
+
+  // exemplo de uso
+  console.log(somarTempo('00:01:50', '00:00:25')); // retorna '00:02:15'
+
+</script>
+
+<script>
+  //INSERIR VALORES A TABELA
+/*  tabela = document.getElementById('tbHistorico');
+*/
+
+  function novaLinha(codp, atividadep, dataInip, dataFimp, tempoTp) {
+    //Inserindo valores conforme padrão do plugin DataTables
+    tbHistorico = $('#tbHistorico').DataTable();
+    tbHistorico.row.add([codp, atividadep, dataInip, dataFimp, tempoTp]).draw(false);
+
+    /*
+    linha = tabela.insertRow(1);
+
+    cod = linha.insertCell(0);
+    atividade = linha.insertCell(1);
+    dataIni = linha.insertCell(2);
+    dataFim = linha.insertCell(3);
+    tempoT = linha.insertCell(4);
+
+    cod.innerHTML = codp;
+    atividade.innerHTML = atividadep;
+    dataIni.innerHTML = dataInip;
+    dataFim.innerHTML = dataFimp;
+    tempoT.innerHTML = tempoTp;
+    */
+  }
+
+  atividadesStr = '{ "PI":"Projeto Integrador", "AP":"Apresentação do Projeto" }';
+  atividadesJson = JSON.parse(atividadesStr);
+
+</script>
+
+<!-- DataTable -->
+<script>
+  // Ativar RowReorder por padrão
+  $.fn.dataTable.defaults.rowReorder = true;
+
+  $(document).ready(function () {
+    var tbHistorico = $('#tbHistorico').DataTable({
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
+      "pagingType": "full_numbers",
+      "language": {
+        "search": "Pesquisar",
+        "zeroRecords": "Nenhum dado encontrado.",
+        "info": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "infoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "infoFiltered": "(Filtrados de _MAX_ registros)",
+        "infoThousands": ".",
+        "loadingRecords": "Carregando...",
+        "processing": "Processando...",
+        "paginate": {
+          "first": '<i class="fas fa-angle-double-left"></i>',
+          "last": '<i class="fas fa-angle-double-right"></i>',
+          "previous": '<i class="fas fa-angle-left"></i>',
+          "next": '<i class="fas fa-angle-right"></i>',
+        },
+        "buttons": {
+          "pageLength": {
+            _: "Mostrar %d linhas",
+            '-1': "Todas as linhas"
+          }
+        }
+      },
+      "order": [
+        [4, "asc"]
+      ],
+      "buttons": {
+        buttons: [{
+          extend: 'pageLength',
+          className: 'btn btn-primary btn-sm',
+          dropup: true
+        },
+        {
+          extend: 'copy',
+          className: 'btn btn-warning btn-sm'
+        },
+        {
+          extend: 'excel',
+          className: 'btn btn-default btn-sm'
+        },
+        {
+          text: 'My button',
+          className: 'btn btn-outline-secondary btn-sm',
+          titleAttr: 'Add a new record',
+          action: function (e, dt, node, config) {
+            alert('Button activated');
+          }
+        },
+        {
+          text: '<i class="fa fa-plus"></i>',
+          className: 'btn btn-outline-danger btn-sm',
+          titleAttr: 'Add a new record',
+          action: function (e, dt, node, config) {
+            window.location.href = "data.html";
+          }
+        }
+        ],
+        dom: {
+          button: {
+            className: 'btn'
+          }
+        }
+      },
+      initComplete: function () {
+        var btns = $('.btn-group');
+        btns.addClass('dropup');
+      }
+    });
+  });
+</script>

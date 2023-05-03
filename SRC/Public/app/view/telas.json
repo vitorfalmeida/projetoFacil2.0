@@ -1,0 +1,36 @@
+[
+  {
+    "title": "Início",
+    "icon": "fas fa-home",
+    "link": "#inicio",
+    "msg": "New"
+  },
+  {
+    "title": "Configuração",
+    "icon": "fas fa-clock",
+    "link": "#config",
+    "msg": null
+  },
+  {
+    "title": "Relatórios",
+    "icon": "fas fa-file",
+    "link": "#",
+    "subitems": [
+      {
+        "title": "Disso",
+        "link": "#relDisso",
+        "msg": null
+      },
+      {
+        "title": "Daquilo",
+        "link": "#relDaquilo",
+        "msg": null
+      },
+      {
+        "title": "Daquilo Outro",
+        "link": "#relDaquilooutro",
+        "msg": null
+      }
+    ]
+  }
+]
